@@ -7,12 +7,12 @@ function App() {
     if (window.Pi) {
       window.Pi.init({ version: "2.0" });
 
-      window.Pi.authenticate(['username'], (err, authResult) => {
+      window.Pi.authenticate(["username"], (err, auth) => {
         if (err) {
-          console.error('Login failed:', err);
+          console.error("Pi authentication failed:", err);
         } else {
-          console.log('Login success!', authResult);
-          setUsername(authResult.user.username); // ✅ Save username
+          console.log("Pi login successful", auth);
+          setUsername(auth.user.username);
         }
       });
     } else {
@@ -23,7 +23,7 @@ function App() {
   return (
     <div style={{ padding: '2rem', fontSize: '1.5rem' }}>
       <h1>Welcome to My Pi App</h1>
-      {username && <p>Hello, <strong>{username}</strong> 👋</p>}
+      {username && <p>Hello, <strong>{username}</strong></p>}
     </div>
   );
 }
