@@ -19,7 +19,7 @@ function App() {
       }
     };
 
-    loginWithPi(); // Call the login function on page load
+    loginWithPi();
   }, []);
 
   return (
