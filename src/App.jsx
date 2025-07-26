@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [username, setUsername] = useState('');
+
   useEffect(() => {
     if (window.Pi) {
       window.Pi.init({ version: "2.0" });
@@ -10,7 +12,7 @@ function App() {
           console.error('Login failed:', err);
         } else {
           console.log('Login success!', authResult);
-          alert('Welcome, ' + authResult.user.username + '!');
+          setUsername(authResult.user.username); // ✅ Save username
         }
       });
     } else {
@@ -19,8 +21,9 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: '2rem', fontSize: '1.5rem' }}>
       <h1>Welcome to My Pi App</h1>
+      {username && <p>Hello, <strong>{username}</strong> 👋</p>}
     </div>
   );
 }
