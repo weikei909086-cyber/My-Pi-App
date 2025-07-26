@@ -1,23 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 function App() {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    if (window.Pi) {
-      window.Pi.init({ version: "2.0" });
-
-      window.Pi.authenticate(["username"], (err, auth) => {
-        if (err) {
-          console.error("Pi authentication failed:", err);
-        } else {
-          console.log("Pi login successful", auth);
-          setUsername(auth.user.username);
+    const loginWithPi = async () => {
+      if (window?.Pi) {
+        try {
+          const scopes = ['username'];
+          const result = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+          setUsername(result?.user?.username);
+        } catch (error) {
+          console.error("Login failed:", error);
         }
-      });
-    } else {
-      console.warn("Pi SDK not found");
-    }
+      } else {
+        console.warn("Pi SDK not found");
+      }
+    };
+
+    const onIncompletePaymentFound = (payment) => {
+      console.log("Incomplete payment found:", payment);
+    };
+
+    loginWithPi();
   }, []);
 
   return (
